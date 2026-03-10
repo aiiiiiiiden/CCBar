@@ -1,6 +1,7 @@
 # CCBar
 
 A macOS menu bar app that monitors Claude Code agent sessions and notifies you when they need your attention.
+<img width="359" height="38" alt="image" src="https://github.com/user-attachments/assets/c41d8047-6c4c-4dd2-8226-96a3ec48f5ef" />
 
 ## What It Does
 
@@ -16,6 +17,7 @@ CCBar sits in your menu bar and watches all active Claude Code sessions across p
 | `bubble.left.fill` (red) | Urgent | Agent needs permission or has a question |
 
 See [STATES.md](STATES.md) for the full state transition diagram.
+
 
 ## How It Works
 
