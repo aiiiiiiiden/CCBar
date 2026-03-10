@@ -1,0 +1,1 @@
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Let me read the file."},{"type":"tool_use","id":"toolu_01ABC","name":"Read","input":{"file_path":"/path/to/file.ts"}}]},"sessionId":"abc-123","uuid":"uuid-2","timestamp":"2026-03-08T08:15:00.000Z"}

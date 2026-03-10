@@ -1,0 +1,1 @@
+{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_01ABC","content":"file contents here","is_error":false}]},"sessionId":"abc-123","uuid":"uuid-3","timestamp":"2026-03-08T08:15:01.000Z"}

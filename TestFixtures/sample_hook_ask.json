@@ -1,0 +1,20 @@
+{
+  "session_id": "hook-session-2",
+  "transcript_path": "/tmp/test.jsonl",
+  "cwd": "/test",
+  "permission_mode": "default",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "AskUserQuestion",
+  "tool_input": {
+    "questions": [
+      {
+        "question": "Which framework?",
+        "header": "Framework",
+        "options": [
+          {"label": "SwiftUI", "description": "Modern UI"},
+          {"label": "AppKit", "description": "Classic UI"}
+        ]
+      }
+    ]
+  }
+}
