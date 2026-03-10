@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Pre-commit hook: runs SwiftLint on staged .swift files
+# Install: ln -sf ../../Scripts/pre-commit .git/hooks/pre-commit
+
+if ! command -v swiftlint &>/dev/null; then
+    echo "warning: SwiftLint not installed, skipping lint (brew install swiftlint)"
+    exit 0
+fi
+
+STAGED_SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.swift')
+
+if [ -z "$STAGED_SWIFT_FILES" ]; then
+    exit 0
+fi
+
+echo "Running SwiftLint on staged Swift files..."
+
+LINT_FAILED=0
+for file in $STAGED_SWIFT_FILES; do
+    if [ -f "$file" ]; then
+        swiftlint lint --strict --path "$file" || LINT_FAILED=1
+    fi
+done
+
+if [ "$LINT_FAILED" -ne 0 ]; then
+    echo "SwiftLint found violations. Fix them before committing."
+    exit 1
+fi
+
+echo "SwiftLint passed."
+exit 0

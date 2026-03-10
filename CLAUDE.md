@@ -81,8 +81,33 @@ Scripts/                          # install.sh, uninstall.sh, run_e2e.sh
 - **Add new JSONL record type**: Extend `JSONLRecord` model, add parsing in `JSONLParser.detectEvents()`
 - **Change detection timing**: Modify constants in `SessionManager` (permission timer) or `FileWatcher` (poll interval)
 
+## Testing a Single File
+
+```bash
+swift test --filter CCBarTests.SessionManagerTests    # Run one test class
+swift test --filter CCBarTests.JSONLParserTests/testXxx  # Run one test method
+```
+
+## Pre-commit Hook Setup
+
+```bash
+ln -sf ../../Scripts/pre-commit .git/hooks/pre-commit
+```
+
+Requires SwiftLint (`brew install swiftlint`). The hook runs lint only on staged `.swift` files and skips gracefully if SwiftLint is not installed.
+
+## Gotchas
+
+- **Port 27182 conflict**: The hook server binds to this port on startup. If another CCBar instance is running, the new one will fail to start. Kill the old process first (`lsof -ti:27182 | xargs kill`).
+- **Permission timer is a heuristic**: The 7s timer after `tool_use` with no `tool_result` is an approximation. Some tools (e.g., large file writes) may legitimately take longer. Adjusting `SessionManager.permissionTimeout` changes the sensitivity.
+- **`@unchecked Sendable` on NIO handler**: Required by SwiftNIO's `ChannelInboundHandler` protocol. The handler is confined to a single NIO `EventLoop`, so this is safe. Do not add `@unchecked Sendable` elsewhere without justification.
+- **`AnyCodable` loses type fidelity**: Round-tripping through `AnyCodable` may convert integers to doubles. Avoid relying on exact numeric types in tool input/output fields.
+- **FileWatcher EOF handling**: The file watcher tracks byte offsets per file. If a JSONL file is truncated (e.g., log rotation), the watcher may miss events until the file grows past the previous offset. Restarting the app resets offsets.
+- **E2E tests require a display**: `run_e2e.sh` launches the full app with `NSApplication`, which needs a window server. CI runners must use `macos-*` images (not Linux containers).
+
 ## Reference Documents
 
 - [STATES.md](STATES.md) - App icon state transition diagrams (Mermaid)
 - [CLAUDE_CODE_EVENTS.md](CLAUDE_CODE_EVENTS.md) - Claude Code event detection analysis
 - [PIXEL_AGENTS.md](PIXEL_AGENTS.md) - Pixel Agents project analysis (reference)
+- [ADR Index](docs/adr/README.md) - Architecture Decision Records
