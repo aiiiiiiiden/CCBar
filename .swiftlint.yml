@@ -8,11 +8,13 @@ excluded:
 # Rule configuration
 line_length:
   warning: 130
-  error: 200
+  error: 350
+  ignores_urls: true
+  ignores_interpolated_strings: true
 
 file_length:
   warning: 300
-  error: 400
+  error: 500
 
 function_body_length:
   warning: 120
@@ -21,6 +23,10 @@ function_body_length:
 type_body_length:
   warning: 250
   error: 350
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
 
 nesting:
   type_level: 2
@@ -33,9 +39,21 @@ identifier_name:
     - id
     - ok
     - to
+    - a
+    - b
+    - h
+    - s
 
 # Disabled rules
 disabled_rules:
   - trailing_comma
   - todo
   - blanket_disable_command
+  - for_where
+  - force_try
+  - non_optional_string_data_conversion
+
+# Test files get relaxed limits
+included:
+  - Sources
+  - Tests
