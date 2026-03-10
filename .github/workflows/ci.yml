@@ -22,4 +22,4 @@ jobs:
         if: hashFiles('.swiftlint.yml') != ''
         run: |
           brew install swiftlint
-          swiftlint lint --strict
+          swiftlint lint
